@@ -8,9 +8,10 @@
 #include <stdio.h>
 #include <string.h>
 void system(char *);
-
+void sleep(int );
 int main(void) //start of main function
 {
+    while(1){
     int userID, choice; //variables for user id and switch
     while (1)           //while loop for menu generation
     {
@@ -19,6 +20,37 @@ int main(void) //start of main function
         printf("                                                                Login Screen\n                                                                ============\n\n");
         printf("                                                    Enter the user ID   :  ");
         scanf("%d", &userID); //taking input from user
+        //Belove code will authenticates the user
+        if(userID==1780)
+                {
+                        printf("\n\n\n\n                                                    Welcome... Samarth Gaonkar...");
+                        sleep(3);
+                        break;        
+                }
+        else if(userID==1788)
+                {
+                        printf("\n\n\n\n                                                    Welcome... Shetty Ganeshprasad...");
+                        sleep(3);
+                        break;        
+                }
+              else if(userID==1753)
+                {
+                        printf("\n\n\n\n                                                    Welcome... Nikhil Vernekar...");
+                        sleep(3);
+                        break;        
+                }
+               else if(userID==1754)
+                {
+                        printf("\n\n\n\n                                                    Welcome... Niranjan Kumar...");
+                        sleep(3);
+                        break;        
+                }
+                        else
+                {
+                        printf("\n\n\n\n                                                    Invalid User ID... Try Again...");
+                        sleep(3); 
+                }  
+    }
         while (1)             //while loops for menu generation
         {
             system("cls"); //system call for clearing screen

@@ -12,7 +12,8 @@ void system(char *);
 int main(void) //statr of main fubction
 {
     int choice;    //variable for switch
-    FILE *fp1;     //file pointer for file operation
+    while(1) // to repeat n times
+    {
     system("cls"); //system call for clearing screen
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
     printf("                                                            Employee Maintenance Menu\n                                                         ===========================\n\n");
@@ -32,5 +33,6 @@ int main(void) //statr of main fubction
         break;
     case 3:
         return (0); //returning to previous function
+    }
     }               //end of switch statement
 } //end of main function

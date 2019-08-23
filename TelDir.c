@@ -12,7 +12,8 @@ void system(char *);
 int main(void) //start of main function
 {
         int choice;    //variable for switch statement
-        FILE *fp1;     //file pointer for file operation
+        while(1)
+        {
         system("cls"); //calling system call for clearing screen
         printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
         printf("                                                     Telephone Directory Maintenance Menu\n                                                     ====================================\n\n");
@@ -52,4 +53,5 @@ int main(void) //start of main function
         case 3:
                 return (0);
         } //end of outerswitch statement
+        }//end of while
 } //end of main

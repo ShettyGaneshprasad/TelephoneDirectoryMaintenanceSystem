@@ -2,13 +2,13 @@
 //project by    Samarth Gaonkar     USN 2SD17CS080
 //              Shetty Ganeshprasad USN 2SD17CS088
 //              Nikhil Vernekar     USN 2SD17CS053
-//              Niranjan Kumar      USN  2SD17CS054
+//              Niranjan Kumar      USN 2SD17CS054
 
 //pre-processing Directory
 #include <stdio.h>
 #include <string.h>
 void system(char *);
-
+void sleep(int);
 //structure for Dept
 struct Dept
 {
@@ -41,8 +41,12 @@ int addDept(void)
     char dummy;
     fp1 = fopen("dept.txt", "a+"); //opening file dept.txt for file operation in append read and write mode
     fp2 = fp1;
+     dummy = getchar();
+    do
+    {
     fseek(fp2, 0, SEEK_END); //moving file pointer to end of file
     end = ftell(fp2);        //storing end location to variable end
+    system("cls");
     if (end == 0)
     {
         d1.code = 1000;
@@ -54,18 +58,20 @@ int addDept(void)
         fseek(fp2, 0, SEEK_END);
         d1.code = (d2.code) + 1;
     }
-
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
     printf("                                                                 Add a Department \n");
     printf("                                                    Department Code           :\t%d\n", d1.code);
     printf("                                                    Enter the Department Name :\t");
-    scanf("%s", d1.name);
-    while (strlen(d1.name) > 15)
+    //scanf("%s", d1.name);
+    gets(d1.name);
+    if(strlen(d1.name) > 15)
     {
-        printf("                                            The Department name is too Big \n");
-        printf("                                                    Enter the Department Name :\t");
-        scanf("%s", d1.name);
+    printf("                                                    The Department name is too Big \n");
+            sleep(3);
     }
+    }while (strlen(d1.name) > 15);
+
+
     fseek(fp2, 0, SEEK_SET);
     while (fread(&d2, sizeof(DEPT), 1, fp1))
     {
@@ -75,7 +81,7 @@ int addDept(void)
         if (!strcmp(name, d2.name))
         {
             printf("                                            The Department name is already exist !!!!\n");
-            printf("                                                     Press Any Key To Continue .....");
+            printf("                                                     Press Enter Key To Continue .....");
             dummy = getchar();
             dummy = getchar();
             return (0);
@@ -83,9 +89,9 @@ int addDept(void)
     }
     fwrite(&d1, sizeof(DEPT), 1, fp1);
     printf("\n\n                                                 Department Added Sucessfully !!!!\n");
-    printf("                                                     Press Any Key To Continue .....");
+    printf("                                                     Press Enter Key To Continue .....");
     dummy = getchar();
-    dummy = getchar();
+    //dummy = getchar();
     fclose(fp1); //closeing opened file
 }
 
@@ -105,6 +111,7 @@ void printDept(void)
     printf("\n\n\n\n\n\n\n");
     fclose(fp2);
     beg = ftell(fp1);
+    printf("                                                        Telephone Directory Maintenance System\n                                                        ======================================\n\n");
     if (end == 0)
         printf("\t\t\t\t\t\t\t\t\tThere are no Departments!!!!\n");
     else
@@ -117,13 +124,13 @@ void printDept(void)
         }
         fclose(fp1);
     }
-    printf("\t\t\t\t\t\t\t\t\t\t\t\tPress Any Key to Continue.....");
+    printf("  \t\t\t\t\t\t\tPress Enter Key to Continue.....");
     dummy = getchar();
     dummy = getchar();
 }
 
 //user defined function for adding employee
-void addEmp(void)
+int addEmp(void)
 {
     int end, dCode, flag = 0;
     EMP d1;
@@ -135,8 +142,12 @@ void addEmp(void)
     fp3 = fopen("dept.txt", "a+"); //opening file dept.txt for file operation in append read and write mode
     fseek(fp3, 0, SEEK_SET);
     char dummy;
+    dummy=getchar();
     fp1 = fopen("emp.txt", "a+"); //opening file emp.txt for file operation in append read and write mode
     fp2 = fp1;
+    do
+    {
+    system("cls");
     fseek(fp2, 0, SEEK_END);
     end = ftell(fp2);
     if (end == 0)
@@ -145,6 +156,7 @@ void addEmp(void)
     }
     else
     {
+        //to get the emoloyee code of previous employee
         fseek(fp2, -64, SEEK_END);
         fread(&d2, sizeof(EMP), 1, fp2);
         fseek(fp2, 0, SEEK_END);
@@ -155,18 +167,20 @@ void addEmp(void)
     printf("                                                                 Add a Department \n");
     printf("                                                    Employee ID                    :\t%d\n", d1.ecode);
     printf("                                                    Enter the Employee Name        :\t");
-    scanf("%s", d1.ename);
-    while (strlen(d1.ename) > 25)
-    {
-        printf("                                            The Employee name is too Big \n");
-        printf("                                                    Enter the Employee Name        :\t");
-        scanf("%s", d1.ename);
-    }
+    gets(d1.ename);
+    //scanf("%s", d1.ename);
+        if(strlen(d1.ename) > 25)
+        {
+        printf("                                                    The Employee name is too Big \n");
+        sleep(3);
+        }
+    }while (strlen(d1.ename) > 25);
+
     printf("                                                    Enter the Employee location   :\t");
     scanf("%s", d1.loc);
     while (strlen(d1.loc) > 5)
     {
-        printf("                                            The Employee name is too Big \n");
+        printf("                                            The Employee location is too Big \n");
         printf("                                                    Enter the Employee location    :\t");
         scanf("%s", d1.loc);
     }
@@ -181,6 +195,7 @@ void addEmp(void)
         printf("                                                    Enter the Employee department code :\t");
         scanf("%d", &dCode);
         fseek(fp3, 0, SEEK_SET);
+        //the below code will searchs department name
         while (fread(&d3, sizeof(DEPT), 1, fp3) && (!flag))
         {
             if (dCode == d3.code)
@@ -199,7 +214,42 @@ void addEmp(void)
             break;
         }
     }
+    if (end == 0)
+    {
+        d1.ecode = 1000;
+    }
+    else
+    {
+        d1.ecode = (d2.ecode) + 1;
+    }
+    char name3[25],loc3[5];
+    strcpy(name3,d1.ename);
+    strlwr(name3);
+    strcpy(loc3,d1.loc);
+    strlwr(loc3);    
+    fseek(fp2,0,SEEK_SET);
+    // the below code will handle duplication of employees
+    while(fread(&d2,sizeof(EMP),1,fp2))
+    {
+        strlwr(d2.ename);
+        strlwr(d2.loc);
+        if(!strcmp(name3,d2.ename)&&d1.dcode==d2.dcode&&(!strcmp(d2.loc,loc3)))//comparing all parameters 
+        {
+            printf("                                            All the details entered is matching with already exist Employee\n");
+            printf("                                            Are you sure want to continue??? press any key for yes and n for no :");
+            scanf(" %c",&dummy);
+                    
+            if(dummy == 'n'||dummy=='N')
+            {
+                printf("                                            Adding Employee is aborted\n");
+                printf("                                                     Press Enter Key To Continue .....");
+                dummy = getchar();
+                dummy = getchar();
+                return(0);
+            }            
+        }
 
+    }
     fwrite(&d1, sizeof(EMP), 1, fp1);
     system("cls");
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
@@ -210,7 +260,7 @@ void addEmp(void)
     printf("                                                    Department  Code     :   %d\n", d1.dcode);
     printf("                                                    Department Name      :   %s\n", d1.dname);
     printf("\n\n                                                 Employee Added Sucessfully !!!!\n");
-    printf("                                                     Press Any Key To Continue .....");
+    printf("                                                     Press Enter Key To Continue .....");
 
     dummy = getchar();
     dummy = getchar();
@@ -233,6 +283,7 @@ void printEmp(void)
     system("cls"); //system csll for clearing screen
     printf("\n\n\n\n\n\n\n");
     fclose(fp2);
+     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
     if (end == 0)
         printf("\t\t\t\t\t\t\t\t\tThere are no Employees!!!!\n");
     else
@@ -294,7 +345,7 @@ void addTele(void)
         if (flag == 0)
         {
             system("cls"); //system csll for clearing screen
-            printf("\n\n\n\n\n\n\n\\n\n\n");
+            printf("\n\n\n\n\n\n\n\n\n\n");
             printf("                                                    Invalid Employee ID !!!!\n");
             printf("\n\n\t\t\t\t\t\t\t\t\t\t\t\tPress Any Key to Continue.....");
             dummy = getchar();
