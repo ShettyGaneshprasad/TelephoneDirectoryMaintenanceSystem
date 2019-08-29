@@ -28,7 +28,8 @@ int main(void) //start of main function
                 system("cls"); //system csll for clearing screen
                 addTele();     //calling user defined function from Filefunction.h for adding telephone info
                 break;
-        case 2:
+        case 2:  while(1)
+                {
                 system("cls"); //system call for clearing screen
                 printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
                 printf("                                                             Telephone Enquiry Menu\n                                                             ======================\n\n");
@@ -46,9 +47,12 @@ int main(void) //start of main function
                         enquiryTele(); //calling user defined function from Filefunction.h for enquiriing about telephone number
                         break;
                 case 3:
-                        return (0); //return to FileFunction.c
+                        break; //return to FileFunction.c
 
                 } //end of inner switch statement
+                if(choice==3)
+                        break;
+                }
 
         case 3:
                 return (0);

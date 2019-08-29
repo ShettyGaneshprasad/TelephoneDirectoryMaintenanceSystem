@@ -140,11 +140,20 @@ int addEmp(void)
     FILE *fp2;                     //file pointer for file operation
     FILE *fp3;                     //file pointer for file operation
     fp3 = fopen("dept.txt", "a+"); //opening file dept.txt for file operation in append read and write mode
+    fseek(fp3, 0, SEEK_END);
+    if(ftell(fp3)==0)
+    {
+        printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
+        printf("\n\n\n\n\n\n\n\n                                                    There are No departments !!!! Please add and Continue.... \n");
+        sleep(3);
+        return(0);
+    }
     fseek(fp3, 0, SEEK_SET);
     char dummy;
     dummy=getchar();
     fp1 = fopen("emp.txt", "a+"); //opening file emp.txt for file operation in append read and write mode
     fp2 = fp1;
+
     do
     {
     system("cls");
@@ -318,12 +327,18 @@ void addTele(void)
     int dummy, teleno, i, j;
     fpe = fopen("emp.txt", "a+");
     fseek(fpe, 0, SEEK_END);
+        if(ftell(fpe)==0)
+    {
+        printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
+        printf("\n\n\n\n\n\n\n\n                                                    There are No Employees !!!! Please add and Continue.... \n");
+        sleep(3);
+        return;
+    }
+    fseek(fpe, 0, SEEK_END);
     count = ftell(fpe) / 64;
     EMP e1[count];
     fpd = fopen("emp.txt", "r");
     fread(&e1, sizeof(EMP), count, fpd);
-    //    printf("Yes ..... Employee name :- %s\n",e.ename);
-    //  printf("Employee Teleno         :-%d\n",e.teleno);
     fwrite(&e1, sizeof(EMP), count, fpd);
     fclose(fpd);
     while (1)
@@ -401,7 +416,16 @@ void enquiryEmp(void)
     FILE *fp1;
     EMP d1;
     system("cls"); //system csll for clearing screen
-    fp1 = fopen("emp.txt", "r");
+    fp1 = fopen("emp.txt", "a+");
+    fseek(fp1, 0, SEEK_SET);
+    fseek(fp1, 0, SEEK_END);
+    if(ftell(fp1)==0)
+    {
+        printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
+        printf("\n\n\n\n\n\n\n\n                                                    There are No Employees !!!! Please add and Continue.... \n");
+        sleep(3);
+        return;
+    }
     fseek(fp1, 0, SEEK_SET);
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
     printf("                                                          Telephone Enquiry by Name\n                                                          =========================\n\n");
@@ -440,7 +464,16 @@ void enquiryTele(void)
     FILE *fp1; //file pointer for file operation
     EMP d1;
     system("cls"); //system csll for clearing screen
-    fp1 = fopen("emp.txt", "r");
+    fp1 = fopen("emp.txt", "a+");
+    fseek(fp1, 0, SEEK_END);
+
+    if(ftell(fp1)==0)
+    {
+        printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
+        printf("\n\n\n\n\n\n\n\n                                                    There are No Employees !!!! Please add and Continue.... \n");
+        sleep(3);
+        return;
+    }
     fseek(fp1, 0, SEEK_SET);
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
     printf("                                                          Telephone Number Enquiry \n                                                          =========================\n\n");
