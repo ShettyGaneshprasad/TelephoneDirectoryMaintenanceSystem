@@ -19,7 +19,8 @@ int main(void) //statr of main fubction
     printf("                                                            Employee Maintenance Menu\n                                                         ===========================\n\n");
     printf("                                                                1. Add Employee\n");
     printf("                                                                2. Print Employee Details\n");
-    printf("                                                                3. Goto Main Menu\n\n");
+    printf("                                                                3. Delete An Employee\n");
+    printf("                                                                4. Goto Main Menu\n\n");
     printf("                                                    Enter Your Choice  :  "); //displaying options for end users
     scanf("%d", &choice);                                                                 //taking input from users
     switch (choice)                                                                       //start of switch statement
@@ -32,6 +33,9 @@ int main(void) //statr of main fubction
         printEmp(); //calling user defined function from Filefunction.h for printing employee details from file
         break;
     case 3:
+        deleteEmp(); //calling user defined function from Filefunction.h for delete employee details from file
+        break;
+    case 4:
         return (0); //returning to previous function
     }
     }               //end of switch statement

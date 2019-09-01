@@ -3,7 +3,6 @@
 //              Shetty Ganeshprasad USN 2SD17CS088
 //              Nikhil Vernekar     USN 2SD17CS053
 //              Niranjan Kumar      USN 2SD17CS054
-
 //pre-processing Directory
 #include <stdio.h>
 #include <string.h>
@@ -31,6 +30,7 @@ typedef struct Emp EMP;
 
 //user defined function for adding department
 int addDept(void);
+void deleteEmp(void);
 int addDept(void)
 {
     int end;
@@ -259,10 +259,11 @@ int addEmp(void)
         }
 
     }
-    fwrite(&d1, sizeof(EMP), 1, fp1);
+    fwrite(&d1, sizeof(EMP), 1, fp1); //appending Employee Details
     system("cls");
+    //printing the details of newly added employee
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
-    printf("                                                                 Add a Department \n");
+    printf("                                                                 Add an Employee \n");
     printf("                                                    Employee ID          :   %d\n", d1.ecode);
     printf("                                                    Employee Name        :   %s\n", d1.ename);
     printf("                                                    Employee location    :   %s\n", d1.loc);
@@ -411,8 +412,8 @@ void addTele(void)
 //user defined function for enquiring about employee
 void enquiryEmp(void)
 {
-    int dummy;
-    char name[15], name1[15], name2[15];
+    int dummy,flag=0,i,len1,len2;
+    char name1[25], name2[25];
     FILE *fp1;
     EMP d1;
     system("cls"); //system csll for clearing screen
@@ -430,14 +431,16 @@ void enquiryEmp(void)
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
     printf("                                                          Telephone Enquiry by Name\n                                                          =========================\n\n");
     printf("                                                          Enter Employee Name :  ");
-    scanf("%s", name);
-    strcpy(name1, strlwr(name));
+    dummy=getchar();
+    gets(name1);
+    strlwr(name1);
     printf("\t\t\tEmployee Name\t\t  Employee Location\t\tDepartment Name\t\tTelephone\n\n");
     while (fread(&d1, sizeof(EMP), 1, fp1))
     {
+        flag=0;
         strcpy(name2, d1.ename);
         strlwr(name2);
-        if (!strcmp(name1, name2))
+        if (!strcmp(name1,name2))
         {
             printf("\t\t\t%-25s %-5s\t\t\t\t%-15s\t\t", d1.ename, d1.loc, d1.dname);
             if ((d1.tele / 1000) == d1.dcode)
@@ -453,7 +456,6 @@ void enquiryEmp(void)
     fclose(fp1);
     printf("\n\n\t\t\t\t\t\t\t\t\t\t\t\tPress Any Key to Continue.....");
     dummy = getchar();
-    dummy = getchar();
 }
 
 //user defined function for enquiry telephone details
@@ -466,7 +468,7 @@ void enquiryTele(void)
     system("cls"); //system csll for clearing screen
     fp1 = fopen("emp.txt", "a+");
     fseek(fp1, 0, SEEK_END);
-
+    //to check is there employees or not
     if(ftell(fp1)==0)
     {
         printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
@@ -478,9 +480,11 @@ void enquiryTele(void)
     printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
     printf("                                                          Telephone Number Enquiry \n                                                          =========================\n\n");
     printf("                                                          Enter Employee Telephone Number :  ");
-    scanf("%d", &teleno);
+    scanf("%d", &teleno);//reading telephone number
+    //searching for telephone number
     while (fread(&d1, sizeof(EMP), 1, fp1))
     {
+        //printing the details
         if ((d1.tele) == teleno)
         {
             printf("                                                          Employee Name                   :   %s\n", d1.ename);
@@ -498,3 +502,98 @@ void enquiryTele(void)
     dummy = getchar();
     dummy = getchar();
 }
+void deleteEmp(void)
+{
+    int i,j,eCode,flag = 0,count;
+    char dummy;
+    FILE *fp1;                     //file pointer for file operation
+    fp1 = fopen("emp.txt", "r"); //opening file emp.txt for file operation in  read mode
+    fseek(fp1, 0, SEEK_END);//moving pointer to end of file
+    if(ftell(fp1)==0)//checking the exception of no employees
+    {
+        system("cls");
+        printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
+        printf("\n\n\n\n\n\n\n\n                                          There are No Employees !!!! Please add and Continue.... \n");
+        sleep(3);
+        return;
+    }
+    count=ftell(fp1)/sizeof(EMP);//counting no. of employees
+    EMP e1[count]; 
+    fseek(fp1, 0, SEEK_SET);
+    fread(&e1, sizeof(EMP), count, fp1);//to read all employees
+    fclose(fp1);
+    while (1) // searching employee in emp.txt file
+    {
+        printEmp();
+        printf("                                                             Delete  an  Employee  \n                                                             ====================\n\n");
+        printf("                                                    Enter the Employee  ID :\t");
+        scanf("%d", &eCode);
+
+        for (i = 0; i < count; i++)
+        {
+            if (eCode == e1[i].ecode)
+            {
+                flag = 1;
+                break;
+            }
+        }
+
+        if (flag == 0)
+        {
+            system("cls"); //system csll for clearing screen
+            printf("\n\n\n\n\n\n\n\n\n\n");
+            printf("                                                    Invalid Employee ID !!!!\n");
+            printf("\n\n\t\t\t\t\t\t\t\t\t\t\t\tPress Any Key to Continue.....");
+            dummy = getchar();
+            dummy = getchar();
+            system("cls"); //system csll for clearing screen
+        }
+        else
+        {
+            break;
+        }
+    }
+    system("cls");
+    printf("                                                    Telephone Directory Maintenance System\n                                                    ======================================\n\n");
+    printf("                                                                 Delete an Employee \n");
+    printf("                                                    Employee ID          :   %d\n", e1[i].ecode);
+    printf("                                                    Employee Name        :   %s\n", e1[i].ename);
+    printf("                                                    Employee location    :   %s\n", e1[i].loc);
+    printf("                                                    Department  Code     :   %d\n", e1[i].dcode);
+    printf("                                                    Department Name      :   %s\n", e1[i].dname);
+    printf("\n\n                                               Are you sure to delete the Details of  %s ????\n",e1[i].ename);
+    printf("                                           Press Y/y to Continue Deletion Else any Key to Abort Deletion :    ");
+    dummy = getchar();
+    dummy = getchar();
+    if(dummy=='y'||dummy=='Y')
+    {
+        fp1 = fopen("emp.txt", "w"); //opening file dept.txt for file operation in append read and write mode
+        for (int  j = 0; j < count; j++)
+        {
+            if(i>j)
+            {
+                    fwrite(&e1[j], sizeof(EMP), 1, fp1);
+            }
+            else if(i<j)//after victim employee decrement ecode by 1
+            {
+                    e1[j].ecode=( e1[j].ecode )-1;
+                    fwrite(&e1[j], sizeof(EMP), 1, fp1);
+            }
+            else//when victim employee do nothing
+            {
+                continue;
+            }
+            
+        }        
+            printf("\n\n                                                 Employee Details Deleted Successfully !!!\n");
+            fclose(fp1);
+    }
+    else//if dont want to delete
+    {
+        printf("\n\n                                                        Employee  Deletion Aborted   !!!\n");
+    }
+    printf("                                                        Press Any Key To Continue .....");    
+    dummy = getchar();
+    dummy = getchar();
+        
+}//end of deleteEmp
